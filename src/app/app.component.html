@@ -1,0 +1,101 @@
+
+
+<div class="container">
+    <div class="row">
+        
+        <div class="col-4">
+            <h3 class="d-center bg-danger text-white p-2 text-center">
+                {{baslik}}'s Notebook
+            </h3>
+
+            <div *ngIf="getBtnNameClasses()">
+                <input style="visibility: visible;" type="text" id="inputton" class="form-control"  placeholder="Enter your name..." class="input-block mb-2 mt-2" [(ngModel)]="baslik">
+                <button
+                style="visibility: visible;"
+                id="inputtonn"
+                [class]="getBtnNameClasses()" 
+                class="btn" 
+                (click)="getName();">Add</button>
+            </div>
+            
+            <div class="input-group mb-3">
+                <input 
+                type="text" 
+                placeholder="Enter your note..."
+                [(ngModel)]="inputText"
+                class="form-control" 
+                (keyup.enter)="getName(); "
+                
+                >
+                <button
+                [class]="getBtnClasses()" 
+                class="btn" 
+                (click)="addItem();">Add</button>
+            </div>
+
+            <div class="form-check mb-3">
+                <input type="checkbox" [(ngModel)]="displayAll" class="form-check-input" name="" id="displayAll" >
+                <label for="displayAll" class="form-check-label">Show All</label>
+            </div>
+
+            <div class="my-2" >
+                {{displayCount()}}  mission complated.
+            </div>
+
+            <div class="alert alert-warning" *ngIf="getItems().length==0 else itemsTable">
+                All mission complated.
+            </div>
+
+            <ng-template #itemsTable >
+            
+                <table class="table table-bordered" >
+                    <thead>
+                        <tr>
+                            
+                            <th></th>
+                            <th class="bg-primary text-white text-center">Note</th>
+                            <th class="bg-danger text-white text-center">Done or not?</th>
+                            <th style="width: 10%; text-align: center; font-size: 25px;">+</th>
+                            <th style="width: 200px;">
+                                <button class="bg-danger text-white w-50 d-block" style="margin: 0 auto;"  type="text" (click)="deleteall() " >Delete All</button>                                
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of getItems(); let i=index" [class]="{'bg-primary':item.action,'text-white':item.action,'bg-warning':!item.action}" >
+                            <td>{{i+1}}</td>
+                            <td>{{item.description}}</td>
+                            <td>
+                                
+                                <div *ngIf="item.action; else noTemplate">
+                                    Yes
+                                </div>
+                                
+                                <ng-template #noTemplate>
+                                    No
+                                </ng-template>
+                                <ng-template #yesTemplate>
+                                    Yes
+                                </ng-template>
+
+                            </td>
+                            <th>
+                                <input class="bg-danger text-white w-100" (change)="onActionChanged(item)" type="checkbox" [(ngModel)]="item.action" >
+                            </th>
+                            <th>
+                                <button class="bg-danger text-white w-15 d-block" style="margin: 0 auto;"(click)="deleteone(item.description)" >X</button>
+                            </th>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+
+            </ng-template>
+            
+
+        </div>
+        
+        
+    </div>
+</div>
